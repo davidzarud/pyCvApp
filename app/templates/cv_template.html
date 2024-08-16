@@ -17,15 +17,12 @@
     <div class="left-column">
         <div class="profile-section">
             <div class="profile-info">
-                <h1>{{ name }}</h1> <!-- Dynamic Name -->
-                <h2>Data Analyst</h2>
+                <h1>{{ name }}</h1>
+                <h2>{{ job_title }}</h2>
             </div>
         </div>
         <p class="profile-description">
-            A committed professional with a BSc in Neuroscience and a Data Analyst. Experienced as a
-            Study Coordinator, with strong skills in data analysis and problem-solving, looking to use these skills in a
-            data
-            analyst role to support data-driven decisions.
+            {{ profile_summary }}
         </p>
         <div class="employment-section">
             <h3 class="h3-main">Employment History</h3>
@@ -106,25 +103,19 @@
     <div class="right-column">
         <div class="skills-section">
             <h3 class="h3-side">Contact Details</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Ramat Gan, Israel</p>
-            <p><i class="fas fa-phone"></i> 054-2121186</p>
-            <p><i class="fas fa-envelope"></i> tkatzir47&#64;gmail.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> {{ location }}</p>
+            <p><i class="fas fa-phone"></i> {{ phone }}</p>
+            <p><i class="fas fa-envelope"></i> {{ email }}</p>
             <p><i class="fab fa-linkedin"></i>
-                <a href="https://www.linkedin.com/in/tali-katzir" target="_blank" class="linkedin-link"> tali-katzir</a>
+                <a href="{{ linkedin }}" target="_blank" class="linkedin-link"> LinkedIn Profile</a>
             </p>
         </div>
         <div class="skills-section">
             <h3 class="h3-side">Skills</h3>
             <ul>
-                <li>
-                    Excel&nbsp;&nbsp;&nbsp;SQL&nbsp;&nbsp;&nbsp;Python
-                </li>
-                <li>
-                    Tableau&nbsp;&nbsp;&nbsp;Power BI
-                </li>
-                <li>
-                    ERD&nbsp;&nbsp;&nbsp;Data Modeling
-                </li>
+                <li>Excel&nbsp;&nbsp;&nbsp;SQL&nbsp;&nbsp;&nbsp;Python</li>
+                <li>Tableau&nbsp;&nbsp;&nbsp;Power BI</li>
+                <li>ERD&nbsp;&nbsp;&nbsp;Data Modeling</li>
             </ul>
         </div>
         <div class="skills-section">
