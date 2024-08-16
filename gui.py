@@ -219,6 +219,7 @@ def save_to_json():
             'phone': phone_entry.get(),
             'email': email_entry.get(),
             'linkedin': linkedin_entry.get(),
+            'languages': languages_entry.get(),
             'jobs': job_details,
             'education': education_details
         }
@@ -253,6 +254,9 @@ def load_selected_file(filename):
 
             linkedin_entry.delete(0, tk.END)
             linkedin_entry.insert(0, data.get('linkedin', ''))
+
+            languages_entry.delete(0, tk.END)
+            languages_entry.insert(0, data.get('languages', ''))
 
             global job_details
             job_details = data.get('jobs', [])
@@ -330,6 +334,11 @@ def main():
     linkedin_entry = tk.Entry(root)
     linkedin_entry.pack(pady=5)
 
+    tk.Label(root, text="Languages (separated by comma):").pack(pady=5)
+    global languages_entry
+    languages_entry = tk.Entry(root, width=40)
+    languages_entry.pack(pady=5)
+
     tk.Label(root, text="Jobs:").pack(pady=5)
     job_listbox = tk.Listbox(root, width=80, height=10)
     job_listbox.pack(pady=5)
@@ -372,6 +381,7 @@ def generate_cv():
     phone = phone_entry.get()
     email = email_entry.get()
     linkedin = linkedin_entry.get()
+    languages = languages_entry.get()
 
     job_params = '||'.join([
         f"{job['title']}~{job['start_year']}~{job['end_year']}~{',,'.join(job['responsibilities'])}"
@@ -390,6 +400,7 @@ def generate_cv():
         f'&profile_summary={urllib.parse.quote(profile_summary)}'
         f'&jobs={urllib.parse.quote(job_params)}&job_title={urllib.parse.quote(job_title)}'
         f'&educations={urllib.parse.quote(education_params)}'
+        f'&languages={urllib.parse.quote(languages)}'
     )
     webbrowser.open(url)
 

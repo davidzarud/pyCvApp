@@ -19,6 +19,7 @@ def generate_cv():
     profile_summary = request.args.get('profile_summary', 'Default Profile Summary')
     jobs = request.args.get('jobs', '')
     educations = request.args.get('educations', '')
+    languages = request.args.get('languages', 'Default Languages')
 
     # Parse job details
     job_list = []
@@ -46,6 +47,14 @@ def generate_cv():
                     'end_year': parts[2]
                 })
 
+    language_list = []
+    if languages:
+        language_entries = languages.split(',')
+        for language in language_entries:
+            language_list.append({
+                'language': language
+            })
+
     return render_template('cv_template.html', name=name, job_title=job_title, location=location,
                            phone=phone, email=email, linkedin=linkedin, profile_summary=profile_summary,
-                           job_list=job_list, education_list=education_list)
+                           job_list=job_list, education_list=education_list, language_list=language_list)

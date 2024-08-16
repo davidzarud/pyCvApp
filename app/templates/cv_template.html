@@ -67,8 +67,9 @@
         <div class="skills-section">
             <h3 class="h3-side">Languages</h3>
             <ul>
-                <li>Hebrew</li>
-                <li>English</li>
+                {% for language in language_list %}
+                <li>{{ language.language }}</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
