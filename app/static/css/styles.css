@@ -1,0 +1,183 @@
+/* General styling */
+.cv-container {
+  width: 210mm; /* A4 width in mm */
+  height: 297mm; /* A4 height in mm */
+  padding: 2mm;   /* Padding for content fit */
+  padding-left: 10mm;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  background: #f4f7f6;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Columns styling */
+.left-column,
+.right-column {
+  box-sizing: border-box;
+}
+
+.left-column {
+  flex: 2;
+  padding-right: 10mm;
+}
+
+.right-column {
+  flex: 1;
+  padding-left: 15mm; /* Increased padding to move content to the left */
+  background: #2b3e50;
+  color: white;
+  padding: 5mm;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Profile section */
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5mm; /* Reduced margin to decrease gap */
+}
+
+.profile-info h1 {
+  font-size: 24px; /* Slightly larger for better emphasis */
+  margin: 0;
+  margin-top: 30px;
+  color: #2b3e50;
+}
+
+.profile-info h2 {
+  font-size: 16px; /* Slightly larger for better readability */
+  margin: 5px 0 0;
+  color: #555;
+}
+
+.profile-description {
+  font-size: 12px; /* Slightly larger for readability */
+  line-height: 1.5; /* Improved line spacing */
+  margin-bottom: 10mm; /* Increased margin for better separation */
+}
+
+/* Section headers */
+.h3-main,
+.h3-side {
+  font-size: 18px;
+  margin-bottom: 5mm;
+}
+
+.h3-main {
+  color: #2b3e50;
+}
+
+.h3-side {
+  color: #fff;
+}
+
+/* Job titles */
+h4 {
+  font-size: 14px;
+  margin: 5px 0 3px;
+  color: #2b3e50;
+}
+
+/* Lists */
+ul {
+  list-style-type: disc;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 12px; /* Slightly larger for better readability */
+}
+
+.skills-section ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skills-section ul li {
+  margin-bottom: 8px; /* More space between skill items */
+  /* background: #4c5c72; */
+  padding: 8px; /* Increased padding for better appearance */
+  border-radius: 5px;
+  color: white;
+  font-size: 12px;
+}
+
+/* Sections */
+.employment-section,
+.education-section {
+  margin-bottom: 10mm;
+}
+
+.employment-section h3,
+.education-section h3 {
+  font-size: 16px;
+  margin-bottom: 5mm;
+}
+
+.employment-section .job,
+.education-section .job {
+  font-size: 12px;
+  margin-bottom: 6mm; /* More space between job entries */
+}
+
+.employment-section span,
+.education-section span {
+  font-size: 10px;
+  color: #999; /* Lighter color for dates */
+}
+
+/* Personal Info Section */
+.details-section {
+  width: calc(100% - 20mm); /* Adjust width to account for padding */
+  background: #2b3e50; /* Background color matching right column */
+  color: white;
+  padding: 10mm;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10mm; /* Space below the personal info section */
+  position: relative; /* Ensure it aligns correctly within the right column */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Optional: Add a subtle shadow for better visibility */
+}
+
+button {
+  background-color: #2b3e50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4c5c72;
+}
+
+/* Icon Styling */
+ul li i {
+  margin-right: 8px; /* Space between icon and text */
+  color: #4c5c72; /* Matching icon color */
+}
+
+/* Contact and Skills Icons */
+.skills-section ul li i,
+.right-column .skills-section p i {
+  margin-right: 10px; /* Space between icon and text */
+  color: #fff; /* White color for icons in the right column */
+}
+
+/* Ensure icons are properly sized */
+.fas {
+  font-size: 14px; /* Adjust size to fit text */
+}
+
+a.linkedin-link {
+  color: #ffffff; /* LinkedIn color */
+  text-decoration: none; /* Remove underline */
+}
