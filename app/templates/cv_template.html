@@ -37,7 +37,13 @@
             {% endfor %}
         </div>
         <div class="education-section">
-            <!-- Education history remains unchanged -->
+            <h3 class="h3-main">Education</h3>
+            {% for education in education_list %}
+            <div class="job">
+                <h4>{{ education.institution }}</h4>
+                <span>{{ education.start_year }} – {{ education.end_year }}</span>
+            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="right-column">

@@ -18,6 +18,7 @@ def generate_cv():
     linkedin = request.args.get('linkedin', 'Default LinkedIn')
     profile_summary = request.args.get('profile_summary', 'Default Profile Summary')
     jobs = request.args.get('jobs', '')
+    educations = request.args.get('educations', '')
 
     # Parse job details
     job_list = []
@@ -33,6 +34,18 @@ def generate_cv():
                     'responsibilities': parts[3].split(',')
                 })
 
+    education_list = []
+    if educations:
+        education_entries = educations.split('||')
+        for entry in education_entries:
+            parts = entry.split('~')
+            if len(parts) == 3:
+                education_list.append({
+                    'institution': parts[0],
+                    'start_year': parts[1],
+                    'end_year': parts[2]
+                })
+
     return render_template('cv_template.html', name=name, job_title=job_title, location=location,
                            phone=phone, email=email, linkedin=linkedin, profile_summary=profile_summary,
-                           job_list=job_list)
+                           job_list=job_list, education_list=education_list)

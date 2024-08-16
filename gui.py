@@ -1,8 +1,9 @@
-import tkinter as tk
-from tkinter import simpledialog, messagebox, filedialog
 import json
 import os
+import tkinter as tk
 import webbrowser
+from tkinter import messagebox, filedialog
+import urllib.parse
 
 
 class JobForm:
@@ -80,6 +81,61 @@ class JobForm:
         update_job_list()
 
 
+class EducationForm:
+    def __init__(self, master, education=None):
+        self.master = master
+        self.education = education
+        self.edu_frame = tk.Toplevel(master)
+        self.edu_frame.title("Education Details")
+        self.init_widgets()
+        if education:
+            self.load_education_data(education)
+
+    def init_widgets(self):
+        tk.Label(self.edu_frame, text="Institution Name:").pack(pady=5)
+        self.institution_entry = tk.Entry(self.edu_frame)
+        self.institution_entry.pack(pady=5)
+
+        tk.Label(self.edu_frame, text="Start Year:").pack(pady=5)
+        self.start_year_entry = tk.Entry(self.edu_frame)
+        self.start_year_entry.pack(pady=5)
+
+        tk.Label(self.edu_frame, text="End Year (optional):").pack(pady=5)
+        self.end_year_entry = tk.Entry(self.edu_frame)
+        self.end_year_entry.pack(pady=5)
+
+        tk.Button(self.edu_frame, text="Save Education", command=self.save_education).pack(pady=5)
+
+    def load_education_data(self, education):
+        self.institution_entry.insert(0, education['institution'])
+        self.start_year_entry.insert(0, education['start_year'])
+        self.end_year_entry.insert(0, education.get('end_year', ''))
+
+    def save_education(self):
+        institution = self.institution_entry.get()
+        start_year = self.start_year_entry.get()
+        end_year = self.end_year_entry.get()
+
+        if not institution or not start_year:
+            messagebox.showwarning("Warning", "Please fill in the Institution Name and Start Year.")
+            return
+
+        education_data = {
+            'institution': institution,
+            'start_year': start_year,
+            'end_year': end_year if end_year else ''
+        }
+
+        if self.education:
+            index = education_details.index(self.education)
+            education_details[index] = education_data
+        else:
+            education_details.append(education_data)
+
+        self.edu_frame.destroy()
+        update_education_list()
+
+
 def add_job():
     global job_form
     job_form = JobForm(root)
@@ -116,6 +172,42 @@ def update_job_list():
         job_listbox.insert(tk.END, job_text)
 
 
+def add_education():
+    global education_form
+    education_form = EducationForm(root)
+    education_form.edu_frame.grab_set()
+
+
+def edit_education():
+    selected_education_index = education_listbox.curselection()
+    if selected_education_index:
+        edu_index = selected_education_index[0]
+        education = education_details[edu_index]
+        global education_form
+        education_form = EducationForm(root, education)
+        education_form.edu_frame.grab_set()
+    else:
+        messagebox.showwarning("Warning", "Select an education entry to edit.")
+
+
+def delete_education():
+    selected_education_index = education_listbox.curselection()
+    if selected_education_index:
+        edu_index = selected_education_index[0]
+        del education_details[edu_index]
+        update_education_list()
+    else:
+        messagebox.showwarning("Warning", "Select an education entry to delete.")
+
+
+def update_education_list():
+    education_listbox.delete(0, tk.END)
+    for edu in education_details:
+        end_year = edu.get('end_year', 'N/A')
+        edu_text = f"{edu.get('institution', 'No Institution')} ({edu.get('start_year', 'N/A')} - {end_year})"
+        education_listbox.insert(tk.END, edu_text)
+
+
 def save_to_json():
     filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
     if filename:
@@ -127,7 +219,8 @@ def save_to_json():
             'phone': phone_entry.get(),
             'email': email_entry.get(),
             'linkedin': linkedin_entry.get(),
-            'jobs': job_details
+            'jobs': job_details,
+            'education': education_details
         }
         with open(filename, 'w') as file:
             json.dump(data, file, indent=4)
@@ -165,6 +258,10 @@ def load_selected_file(filename):
             job_details = data.get('jobs', [])
             update_job_list()
 
+            global education_details
+            education_details = data.get('education', [])
+            update_education_list()
+
             messagebox.showinfo("Load", f"Data loaded successfully from {filename}!")
         except FileNotFoundError:
             messagebox.showwarning("Load", "File not found.")
@@ -183,9 +280,10 @@ def update_file_list():
 
 
 def main():
-    global root, job_details, job_listbox, file_var, file_menu
+    global root, job_details, job_listbox, education_details, education_listbox, file_var, file_menu
 
     job_details = []
+    education_details = []
 
     root = tk.Tk()
     root.title("CV Generator")
@@ -240,6 +338,14 @@ def main():
     tk.Button(root, text="Edit Job", command=edit_job).pack(pady=5)
     tk.Button(root, text="Delete Job", command=delete_job).pack(pady=5)
 
+    tk.Label(root, text="Education:").pack(pady=5)
+    education_listbox = tk.Listbox(root, width=80, height=10)
+    education_listbox.pack(pady=5)
+
+    tk.Button(root, text="Add Education", command=add_education).pack(pady=5)
+    tk.Button(root, text="Edit Education", command=edit_education).pack(pady=5)
+    tk.Button(root, text="Delete Education", command=delete_education).pack(pady=5)
+
     scrollbar = tk.Scrollbar(root)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
@@ -272,8 +378,19 @@ def generate_cv():
         for job in job_details
     ])
 
-    url = (f'http://127.0.0.1:5000/generate_cv?name={name}&location={location}&phone={phone}&email={email}'
-           f'&linkedin={linkedin}&profile_summary={profile_summary}&jobs={job_params}&job_title={job_title}')
+    education_params = '||'.join([
+        f"{education['institution']}~{education['start_year']}~{education['end_year']}"
+        for education in education_details
+    ])
+
+    url = (
+        f'http://127.0.0.1:5000/generate_cv?name={urllib.parse.quote(name)}'
+        f'&location={urllib.parse.quote(location)}&phone={urllib.parse.quote(phone)}'
+        f'&email={urllib.parse.quote(email)}&linkedin={urllib.parse.quote(linkedin)}'
+        f'&profile_summary={urllib.parse.quote(profile_summary)}'
+        f'&jobs={urllib.parse.quote(job_params)}&job_title={urllib.parse.quote(job_title)}'
+        f'&educations={urllib.parse.quote(education_params)}'
+    )
     webbrowser.open(url)
 
 
