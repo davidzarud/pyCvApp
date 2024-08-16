@@ -17,10 +17,21 @@ def generate_cv():
     email = request.args.get('email', 'Default Email')
     linkedin = request.args.get('linkedin', 'Default LinkedIn')
     profile_summary = request.args.get('profile_summary', 'Default Profile Summary')
-    jobs = request.args.get('jobs', 'Default Jobs')
+    jobs = request.args.get('jobs', '')
 
-    # Split jobs into a list if needed
-    job_list = jobs.split('\n') if jobs else []
+    # Parse job details
+    job_list = []
+    if jobs:
+        job_entries = jobs.split('|')
+        for entry in job_entries:
+            parts = entry.split('|')
+            if len(parts) == 4:
+                job_list.append({
+                    'title': parts[0],
+                    'start_year': parts[1],
+                    'end_year': parts[2],
+                    'responsibilities': parts[3].split(',')
+                })
 
     return render_template('cv_template.html', name=name, job_title=job_title, location=location,
                            phone=phone, email=email, linkedin=linkedin, profile_summary=profile_summary,
