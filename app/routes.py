@@ -8,8 +8,7 @@ def index():
     return render_template('cv_template.html')
 
 
-@app.route('/update_cv', methods=['POST'])
-def update_cv():
-
-    print("update cv")
-    return jsonify({'message': 'CV updated and PDF generated!'}), 200
+@app.route('/generate_cv')
+def generate_cv():
+    name = request.args.get('name', 'Default Name')
+    return render_template('cv_template.html', name=name)

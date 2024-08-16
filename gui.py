@@ -1,48 +1,26 @@
 import tkinter as tk
-from tkinter import ttk
-import requests  # To communicate with the Flask app
+import webbrowser
 
 
-class CVApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("CV Generator")
-        self.root.geometry("400x300")
-
-        # Create and place labels and entries for CV details
-        self.create_form()
-
-        # Create and place the submit button
-        self.submit_button = ttk.Button(root, text="Generate CV", command=self.submit_form)
-        self.submit_button.pack(pady=20)
-
-    def create_form(self):
-        self.name_label = ttk.Label(self.root, text="Name:")
-        self.name_label.pack(pady=5)
-        self.name_entry = ttk.Entry(self.root)
-        self.name_entry.pack(pady=5)
-
-        self.job_label = ttk.Label(self.root, text="Job Title:")
-        self.job_label.pack(pady=5)
-        self.job_entry = ttk.Entry(self.root)
-        self.job_entry.pack(pady=5)
-
-        # Add more fields as needed...
-
-    def submit_form(self):
-        name = self.name_entry.get()
-        job = self.job_entry.get()
-
-        # You can either save this data to a file or send it to the Flask server
-        response = requests.post('http://localhost:5000/update_cv', json={'name': name, 'job': job})
-
-        if response.status_code == 200:
-            print("CV data submitted successfully!")
-        else:
-            print("Error submitting CV data.")
+def generate_cv():
+    name = name_entry.get()
+    url = f'http://127.0.0.1:5000/generate_cv?name={name}'
+    webbrowser.open(url)
 
 
-if __name__ == "__main__":
+def main():
     root = tk.Tk()
-    app = CVApp(root)
+    root.title("CV Generator")
+
+    tk.Label(root, text="Enter Your Name:").pack(pady=10)
+    global name_entry
+    name_entry = tk.Entry(root)
+    name_entry.pack(pady=10)
+
+    tk.Button(root, text="Generate CV", command=generate_cv).pack(pady=20)
+
     root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
