@@ -7,7 +7,10 @@
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
 <div class="cv-container" id="cv-container">
@@ -117,7 +120,7 @@
                     Excel&nbsp;&nbsp;&nbsp;SQL&nbsp;&nbsp;&nbsp;Python
                 </li>
                 <li>
-                   Tableau&nbsp;&nbsp;&nbsp;Power BI
+                    Tableau&nbsp;&nbsp;&nbsp;Power BI
                 </li>
                 <li>
                     ERD&nbsp;&nbsp;&nbsp;Data Modeling
@@ -133,6 +136,48 @@
         </div>
     </div>
 </div>
+
+<button id="download-pdf">Download PDF</button>
+
+<script>
+    document.getElementById('download-pdf').addEventListener('click', function () {
+        const elementId = 'cv-container';
+        const element = document.getElementById(elementId);
+        if (!element) {
+            console.error('Element not found!');
+            return;
+        }
+
+        // Define A4 page size in mm
+        const pageWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+
+        html2canvas(element, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            // Get the image dimensions
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgWidth = imgProps.width;
+            const imgHeight = imgProps.height;
+
+            // Calculate scaling factor to fit the image within A4 dimensions
+            const widthRatio = pageWidth / imgWidth;
+            const heightRatio = pageHeight / imgHeight;
+            const scale = Math.min(widthRatio, heightRatio);
+
+            // Calculate new dimensions based on the scale
+            const pdfWidth = imgWidth * scale;
+            const pdfHeight = imgHeight * scale;
+
+            // Add the image to the PDF without extra margins
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('cv.pdf');
+        }).catch(error => {
+            console.error('Error generating PDF', error);
+        });
+    });
+</script>
 </body>
 </html>
-<!--<button (click)="downloadPdf()">Download PDF</button>-->
