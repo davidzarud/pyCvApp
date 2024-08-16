@@ -31,7 +31,7 @@ def generate_cv():
                     'title': parts[0],
                     'start_year': parts[1],
                     'end_year': parts[2],
-                    'responsibilities': parts[3].split(',')
+                    'responsibilities': parts[3].split(',,')
                 })
 
     education_list = []
