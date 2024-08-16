@@ -267,8 +267,8 @@ def generate_cv():
     email = email_entry.get()
     linkedin = linkedin_entry.get()
 
-    job_params = '|'.join([
-        f"{job['title']}|{job['start_year']}|{job['end_year']}|{','.join(job['responsibilities'])}"
+    job_params = '||'.join([
+        f"{job['title']}~{job['start_year']}~{job['end_year']}~{','.join(job['responsibilities'])}"
         for job in job_details
     ])
 

@@ -22,9 +22,9 @@ def generate_cv():
     # Parse job details
     job_list = []
     if jobs:
-        job_entries = jobs.split('|')
+        job_entries = jobs.split('||')
         for entry in job_entries:
-            parts = entry.split('|')
+            parts = entry.split('~')  # Changed to the new delimiter
             if len(parts) == 4:
                 job_list.append({
                     'title': parts[0],
