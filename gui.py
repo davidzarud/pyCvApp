@@ -1,9 +1,10 @@
 import json
 import os
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
-import webbrowser
 import urllib.parse
+import webbrowser
+from tkinter import ttk, messagebox, filedialog
+
 
 class JobForm:
     def __init__(self, master, job=None):
@@ -81,6 +82,7 @@ class JobForm:
         self.job_frame.destroy()
         update_job_list()
 
+
 class EducationForm:
     def __init__(self, master, education=None):
         self.master = master
@@ -137,10 +139,12 @@ class EducationForm:
         self.edu_frame.destroy()
         update_education_list()
 
+
 def add_job():
     global job_form
     job_form = JobForm(root)
     job_form.job_frame.grab_set()
+
 
 def edit_job():
     selected_job_index = job_listbox.curselection()
@@ -153,6 +157,7 @@ def edit_job():
     else:
         messagebox.showwarning("Warning", "Select a job to edit.")
 
+
 def delete_job():
     selected_job_index = job_listbox.curselection()
     if selected_job_index:
@@ -162,6 +167,7 @@ def delete_job():
     else:
         messagebox.showwarning("Warning", "Select a job to delete.")
 
+
 def update_job_list():
     job_listbox.delete(0, tk.END)
     for job in job_details:
@@ -169,10 +175,12 @@ def update_job_list():
         job_text = f"{job.get('title', 'No Title')} ({job.get('start_year', 'N/A')} - {end_year})"
         job_listbox.insert(tk.END, job_text)
 
+
 def add_education():
     global education_form
     education_form = EducationForm(root)
     education_form.edu_frame.grab_set()
+
 
 def edit_education():
     selected_education_index = education_listbox.curselection()
@@ -185,6 +193,7 @@ def edit_education():
     else:
         messagebox.showwarning("Warning", "Select an education entry to edit.")
 
+
 def delete_education():
     selected_education_index = education_listbox.curselection()
     if selected_education_index:
@@ -194,6 +203,7 @@ def delete_education():
     else:
         messagebox.showwarning("Warning", "Select an education entry to delete.")
 
+
 def update_education_list():
     education_listbox.delete(0, tk.END)
     for edu in education_details:
@@ -201,8 +211,16 @@ def update_education_list():
         edu_text = f"{edu.get('institution', 'No Institution')} ({edu.get('start_year', 'N/A')} - {end_year})"
         education_listbox.insert(tk.END, edu_text)
 
+
 def save_to_json():
-    filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
+    default_directory = os.path.join(os.getcwd(), 'cv')
+    filename = filedialog.asksaveasfilename(
+        initialdir=default_directory,
+        title="Save JSON File",
+        defaultextension=".json",
+        filetypes=[("JSON files", "*.json"), ("All files", "*.*")]
+    )
+
     if filename:
         data = {
             'name': name_entry.get(),
@@ -220,13 +238,33 @@ def save_to_json():
             json.dump(data, file, indent=4)
         messagebox.showinfo("Success", "Resume data saved successfully!")
 
-def load_from_json():
-    filename = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+
+def load_from_json(filename=None):
     if filename:
         with open(filename, 'r') as file:
             data = json.load(file)
         populate_fields(data)
         messagebox.showinfo("Success", "Resume data loaded successfully!")
+
+
+def populate_load_menu(menu):
+    # Specify the project root directory
+    directory = f'{os.getcwd()}/cv'
+
+    # Clear the existing menu items
+    menu.delete(0, tk.END)
+
+    # Add a command to manually load JSON
+    menu.add_command(label="Load JSON", command=lambda: load_from_json())
+
+    # Populate the menu with existing files
+    for filename in os.listdir(directory):
+        if filename.endswith(".json"):
+            menu.add_command(
+                label=filename,
+                command=lambda f=filename: load_from_json(os.path.join(directory, f))
+            )
+
 
 def populate_fields(data):
     name_entry.delete(0, tk.END)
@@ -236,7 +274,7 @@ def populate_fields(data):
     job_title_entry.insert(0, data.get('job_title', ''))
 
     profile_summary_entry.delete("1.0", tk.END)
-    profile_summary_entry.insert(tk.END, data.get    ('profile_summary', ''))
+    profile_summary_entry.insert(tk.END, data.get('profile_summary', ''))
 
     location_entry.delete(0, tk.END)
     location_entry.insert(0, data.get('location', ''))
@@ -259,6 +297,7 @@ def populate_fields(data):
 
     update_job_list()
     update_education_list()
+
 
 def generate_cv():
     name = name_entry.get()
@@ -291,12 +330,14 @@ def generate_cv():
     )
     webbrowser.open(url)
 
+
 def open_linkedin():
     url = linkedin_entry.get()
     if url:
         webbrowser.open(url, new=2)
     else:
         messagebox.showwarning("Warning", "No LinkedIn URL provided.")
+
 
 root = tk.Tk()
 root.title("Resume Builder")
@@ -405,6 +446,7 @@ load_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
 load_menu = tk.Menu(load_button, tearoff=0)
 load_button["menu"] = load_menu
 load_menu.add_command(label="Load JSON", command=load_from_json)
+populate_load_menu(load_menu)
 
 generate_cv_button = ttk.Button(buttons_frame, text="Generate CV", command=generate_cv)
 generate_cv_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
@@ -413,4 +455,3 @@ open_linkedin_button = ttk.Button(buttons_frame, text="Open LinkedIn", command=o
 open_linkedin_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
 
 root.mainloop()
-
