@@ -212,6 +212,13 @@ def update_education_list():
         education_listbox.insert(tk.END, edu_text)
 
 
+def ensure_cv_directory():
+    # Ensure the 'cv' directory exists in the project root
+    cv_directory = os.path.join(os.getcwd(), 'cv')
+    if not os.path.exists(cv_directory):
+        os.makedirs(cv_directory)
+
+
 def save_to_json():
     default_directory = os.path.join(os.getcwd(), 'cv')
     filename = filedialog.asksaveasfilename(
@@ -446,6 +453,8 @@ load_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
 load_menu = tk.Menu(load_button, tearoff=0)
 load_button["menu"] = load_menu
 load_menu.add_command(label="Load JSON", command=load_from_json)
+
+ensure_cv_directory()
 populate_load_menu(load_menu)
 
 generate_cv_button = ttk.Button(buttons_frame, text="Generate CV", command=generate_cv)
