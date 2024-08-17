@@ -346,121 +346,125 @@ def open_linkedin():
         messagebox.showwarning("Warning", "No LinkedIn URL provided.")
 
 
-root = tk.Tk()
-root.title("Resume Builder")
-root.geometry('600x600')
 
-style = ttk.Style(root)
-style.configure('TButton', font=('Helvetica', 10), padding=6)
-style.configure('TLabel', font=('Helvetica', 10))
-style.configure('TEntry', padding=6)
-style.configure('TFrame', padding=6)
 
-job_details = []
-education_details = []
+def main():
+    global root, education_listbox, job_listbox, linkedin_entry, languages_entry, profile_summary_entry, job_title_entry, name_entry, email_entry, phone_entry, location_entry
+    root = tk.Tk()
+    root.title("Resume Builder")
+    root.geometry('600x600')
 
-# Personal Information Frame
-personal_frame = ttk.LabelFrame(root, text="Personal Information")
-personal_frame.pack(fill="both", expand=True, padx=20, pady=10)
+    style = ttk.Style(root)
+    style.configure('TButton', font=('Helvetica', 10), padding=6)
+    style.configure('TLabel', font=('Helvetica', 10))
+    style.configure('TEntry', padding=6)
+    style.configure('TFrame', padding=6)
 
-ttk.Label(personal_frame, text="Name:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
-name_entry = ttk.Entry(personal_frame)
-name_entry.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
+    job_details = []
+    education_details = []
 
-ttk.Label(personal_frame, text="Job Title:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
-job_title_entry = ttk.Entry(personal_frame)
-job_title_entry.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
+    # Personal Information Frame
+    personal_frame = ttk.LabelFrame(root, text="Personal Information")
+    personal_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-ttk.Label(personal_frame, text="Profile Summary:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
-profile_summary_entry = tk.Text(personal_frame, height=5, width=40)
-profile_summary_entry.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Name:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+    name_entry = ttk.Entry(personal_frame)
+    name_entry.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
-ttk.Label(personal_frame, text="Location:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=5)
-location_entry = ttk.Entry(personal_frame)
-location_entry.grid(row=3, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Job Title:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+    job_title_entry = ttk.Entry(personal_frame)
+    job_title_entry.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
 
-ttk.Label(personal_frame, text="Phone:").grid(row=4, column=0, sticky=tk.W, padx=10, pady=5)
-phone_entry = ttk.Entry(personal_frame)
-phone_entry.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Profile Summary:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+    profile_summary_entry = tk.Text(personal_frame, height=5, width=40)
+    profile_summary_entry.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
 
-ttk.Label(personal_frame, text="Email:").grid(row=5, column=0, sticky=tk.W, padx=10, pady=5)
-email_entry = ttk.Entry(personal_frame)
-email_entry.grid(row=5, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Location:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=5)
+    location_entry = ttk.Entry(personal_frame)
+    location_entry.grid(row=3, column=1, padx=10, pady=5, sticky="ew")
 
-ttk.Label(personal_frame, text="LinkedIn:").grid(row=6, column=0, sticky=tk.W, padx=10, pady=5)
-linkedin_entry = ttk.Entry(personal_frame)
-linkedin_entry.grid(row=6, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Phone:").grid(row=4, column=0, sticky=tk.W, padx=10, pady=5)
+    phone_entry = ttk.Entry(personal_frame)
+    phone_entry.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
 
-ttk.Label(personal_frame, text="Languages:").grid(row=7, column=0, sticky=tk.W, padx=10, pady=5)
-languages_entry = ttk.Entry(personal_frame)
-languages_entry.grid(row=7, column=1, padx=10, pady=5, sticky="ew")
+    ttk.Label(personal_frame, text="Email:").grid(row=5, column=0, sticky=tk.W, padx=10, pady=5)
+    email_entry = ttk.Entry(personal_frame)
+    email_entry.grid(row=5, column=1, padx=10, pady=5, sticky="ew")
 
-# Job Experience Frame
-jobs_frame = ttk.LabelFrame(root, text="Job Experience")
-jobs_frame.pack(fill="both", expand=True, padx=20, pady=10)
+    ttk.Label(personal_frame, text="LinkedIn:").grid(row=6, column=0, sticky=tk.W, padx=10, pady=5)
+    linkedin_entry = ttk.Entry(personal_frame)
+    linkedin_entry.grid(row=6, column=1, padx=10, pady=5, sticky="ew")
 
-job_listbox = tk.Listbox(jobs_frame, height=6)
-job_listbox.pack(side=tk.LEFT, fill="both", expand=True, padx=10, pady=5)
+    ttk.Label(personal_frame, text="Languages:").grid(row=7, column=0, sticky=tk.W, padx=10, pady=5)
+    languages_entry = ttk.Entry(personal_frame)
+    languages_entry.grid(row=7, column=1, padx=10, pady=5, sticky="ew")
 
-job_scrollbar = ttk.Scrollbar(jobs_frame, orient="vertical", command=job_listbox.yview)
-job_listbox.configure(yscrollcommand=job_scrollbar.set)
-job_scrollbar.pack(side=tk.LEFT, fill="y")
+    # Job Experience Frame
+    jobs_frame = ttk.LabelFrame(root, text="Job Experience")
+    jobs_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-jobs_button_frame = ttk.Frame(jobs_frame)
-jobs_button_frame.pack(side=tk.LEFT, fill="both", padx=10)
+    job_listbox = tk.Listbox(jobs_frame, height=6)
+    job_listbox.pack(side=tk.LEFT, fill="both", expand=True, padx=10, pady=5)
 
-add_job_button = ttk.Button(jobs_button_frame, text="Add Job", command=add_job)
-add_job_button.pack(fill="x", pady=5)
+    job_scrollbar = ttk.Scrollbar(jobs_frame, orient="vertical", command=job_listbox.yview)
+    job_listbox.configure(yscrollcommand=job_scrollbar.set)
+    job_scrollbar.pack(side=tk.LEFT, fill="y")
 
-edit_job_button = ttk.Button(jobs_button_frame, text="Edit Job", command=edit_job)
-edit_job_button.pack(fill="x", pady=5)
+    jobs_button_frame = ttk.Frame(jobs_frame)
+    jobs_button_frame.pack(side=tk.LEFT, fill="both", padx=10)
 
-delete_job_button = ttk.Button(jobs_button_frame, text="Delete Job", command=delete_job)
-delete_job_button.pack(fill="x", pady=5)
+    add_job_button = ttk.Button(jobs_button_frame, text="Add Job", command=add_job)
+    add_job_button.pack(fill="x", pady=5)
 
-# Education Frame
-education_frame = ttk.LabelFrame(root, text="Education")
-education_frame.pack(fill="both", expand=True, padx=20, pady=10)
+    edit_job_button = ttk.Button(jobs_button_frame, text="Edit Job", command=edit_job)
+    edit_job_button.pack(fill="x", pady=5)
 
-education_listbox = tk.Listbox(education_frame, height=6)
-education_listbox.pack(side=tk.LEFT, fill="both", expand=True, padx=10, pady=5)
+    delete_job_button = ttk.Button(jobs_button_frame, text="Delete Job", command=delete_job)
+    delete_job_button.pack(fill="x", pady=5)
 
-education_scrollbar = ttk.Scrollbar(education_frame, orient="vertical", command=education_listbox.yview)
-education_listbox.configure(yscrollcommand=education_scrollbar.set)
-education_scrollbar.pack(side=tk.LEFT, fill="y")
+    # Education Frame
+    education_frame = ttk.LabelFrame(root, text="Education")
+    education_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-education_button_frame = ttk.Frame(education_frame)
-education_button_frame.pack(side=tk.LEFT, fill="both", padx=10)
+    education_listbox = tk.Listbox(education_frame, height=6)
+    education_listbox.pack(side=tk.LEFT, fill="both", expand=True, padx=10, pady=5)
 
-add_education_button = ttk.Button(education_button_frame, text="Add Education", command=add_education)
-add_education_button.pack(fill="x", pady=5)
+    education_scrollbar = ttk.Scrollbar(education_frame, orient="vertical", command=education_listbox.yview)
+    education_listbox.configure(yscrollcommand=education_scrollbar.set)
+    education_scrollbar.pack(side=tk.LEFT, fill="y")
 
-edit_education_button = ttk.Button(education_button_frame, text="Edit Education", command=edit_education)
-edit_education_button.pack(fill="x", pady=5)
+    education_button_frame = ttk.Frame(education_frame)
+    education_button_frame.pack(side=tk.LEFT, fill="both", padx=10)
 
-delete_education_button = ttk.Button(education_button_frame, text="Delete Education", command=delete_education)
-delete_education_button.pack(fill="x", pady=5)
+    add_education_button = ttk.Button(education_button_frame, text="Add Education", command=add_education)
+    add_education_button.pack(fill="x", pady=5)
 
-# Buttons Frame
-buttons_frame = ttk.Frame(root)
-buttons_frame.pack(fill="both", expand=True, padx=20, pady=10)
+    edit_education_button = ttk.Button(education_button_frame, text="Edit Education", command=edit_education)
+    edit_education_button.pack(fill="x", pady=5)
 
-save_button = ttk.Button(buttons_frame, text="Save to JSON", command=save_to_json)
-save_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+    delete_education_button = ttk.Button(education_button_frame, text="Delete Education", command=delete_education)
+    delete_education_button.pack(fill="x", pady=5)
 
-load_button = ttk.Menubutton(buttons_frame, text="Load JSON")
-load_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
-load_menu = tk.Menu(load_button, tearoff=0)
-load_button["menu"] = load_menu
-load_menu.add_command(label="Load JSON", command=load_from_json)
+    # Buttons Frame
+    buttons_frame = ttk.Frame(root)
+    buttons_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-ensure_cv_directory()
-populate_load_menu(load_menu)
+    save_button = ttk.Button(buttons_frame, text="Save to JSON", command=save_to_json)
+    save_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
 
-generate_cv_button = ttk.Button(buttons_frame, text="Generate CV", command=generate_cv)
-generate_cv_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+    load_button = ttk.Menubutton(buttons_frame, text="Load JSON")
+    load_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+    load_menu = tk.Menu(load_button, tearoff=0)
+    load_button["menu"] = load_menu
+    load_menu.add_command(label="Load JSON", command=load_from_json)
 
-open_linkedin_button = ttk.Button(buttons_frame, text="Open LinkedIn", command=open_linkedin)
-open_linkedin_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+    ensure_cv_directory()
+    populate_load_menu(load_menu)
 
-root.mainloop()
+    generate_cv_button = ttk.Button(buttons_frame, text="Generate CV", command=generate_cv)
+    generate_cv_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+
+    open_linkedin_button = ttk.Button(buttons_frame, text="Open LinkedIn", command=open_linkedin)
+    open_linkedin_button.pack(side=tk.LEFT, padx=10, pady=10, expand=True)
+
+    root.mainloop()
