@@ -59,7 +59,7 @@
 .profile-description {
   font-size: 12px; /* Slightly larger for readability */
   line-height: 1.5; /* Improved line spacing */
-  margin-bottom: 10mm; /* Increased margin for better separation */
+  margin-bottom: 6mm; /* Increased margin for better separation */
 }
 
 /* Section headers */
@@ -90,6 +90,7 @@ ul {
   margin: 0;
   padding-left: 20px;
   font-size: 12px; /* Slightly larger for better readability */
+  margin-top: 1mm;
 }
 
 .skills-section ul {
@@ -115,8 +116,8 @@ ul {
 
 .employment-section h3,
 .education-section h3 {
-  font-size: 16px;
-  margin-bottom: 5mm;
+  font-size: 18px;
+  margin-bottom: 3mm;
 }
 
 .employment-section .job,
