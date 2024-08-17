@@ -16,6 +16,22 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+.profile-description,
+.job ul,
+.skills-section ul,
+.right-column p {
+  text-align: justify;
+  text-justify: inter-word; /* Ensures space is distributed between words */
+}
+
+.profile-description::after,
+.job ul::after,
+.skills-section ul::after,
+.right-column p::after {
+  content: "";
+  display: block;
+}
+
 /* Columns styling */
 .left-column,
 .right-column {
