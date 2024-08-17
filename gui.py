@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import webbrowser
+import urllib.parse
 
 class JobForm:
     def __init__(self, master, job=None):
@@ -260,21 +261,35 @@ def populate_fields(data):
     update_education_list()
 
 def generate_cv():
-    cv_data = {
-        'name': name_entry.get(),
-        'job_title': job_title_entry.get(),
-        'profile_summary': profile_summary_entry.get("1.0", "end-1c"),
-        'location': location_entry.get(),
-        'phone': phone_entry.get(),
-        'email': email_entry.get(),
-        'linkedin': linkedin_entry.get(),
-        'languages': languages_entry.get(),
-        'jobs': job_details,
-        'education': education_details
-    }
-    # Placeholder for generating CV
-    messagebox.showinfo("CV Generated", "CV generated with the provided information.")
-    # Here you can integrate logic to generate and display the CV using a template
+    name = name_entry.get()
+    job_title = job_title_entry.get()
+    profile_summary = profile_summary_entry.get("1.0", "end-1c")
+    location = location_entry.get()
+    phone = phone_entry.get()
+    email = email_entry.get()
+    linkedin = linkedin_entry.get()
+    languages = languages_entry.get()
+
+    job_params = '||'.join([
+        f"{job['title']}~{job['start_year']}~{job['end_year']}~{',,'.join(job['responsibilities'])}"
+        for job in job_details
+    ])
+
+    education_params = '||'.join([
+        f"{education['institution']}~{education['start_year']}~{education['end_year']}"
+        for education in education_details
+    ])
+
+    url = (
+        f'http://127.0.0.1:5000/generate_cv?name={urllib.parse.quote(name)}'
+        f'&location={urllib.parse.quote(location)}&phone={urllib.parse.quote(phone)}'
+        f'&email={urllib.parse.quote(email)}&linkedin={urllib.parse.quote(linkedin)}'
+        f'&profile_summary={urllib.parse.quote(profile_summary)}'
+        f'&jobs={urllib.parse.quote(job_params)}&job_title={urllib.parse.quote(job_title)}'
+        f'&educations={urllib.parse.quote(education_params)}'
+        f'&languages={urllib.parse.quote(languages)}'
+    )
+    webbrowser.open(url)
 
 def open_linkedin():
     url = linkedin_entry.get()
