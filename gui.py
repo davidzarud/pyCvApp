@@ -346,8 +346,6 @@ def open_linkedin():
         messagebox.showwarning("Warning", "No LinkedIn URL provided.")
 
 
-
-
 def main():
     global root, education_listbox, job_listbox, linkedin_entry, languages_entry, profile_summary_entry, job_title_entry, name_entry, email_entry, phone_entry, location_entry
     root = tk.Tk()
