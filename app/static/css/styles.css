@@ -7,7 +7,10 @@
   margin: 0;
   box-sizing: border-box;
   display: flex;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+/*  font-family: 'Roboto', sans-serif; */
+  line-height: 1.2; /* Adjust line height for readability */
+
   color: #333;
   background: #f4f7f6;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -40,7 +43,7 @@
 .profile-section {
   display: flex;
   align-items: center;
-  margin-bottom: 5mm; /* Reduced margin to decrease gap */
+  margin-bottom: 3mm; /* Reduced margin to decrease gap */
 }
 
 .profile-info h1 {
@@ -111,7 +114,7 @@ ul {
 /* Sections */
 .employment-section,
 .education-section {
-  margin-bottom: 10mm;
+  margin-bottom: 7mm;
 }
 
 .employment-section h3,
@@ -166,9 +169,14 @@ ul li i {
   color: #4c5c72; /* Matching icon color */
 }
 
+.right-column p {
+  font-size: 12px;
+}
+
 /* Contact and Skills Icons */
 .skills-section ul li i,
 .right-column .skills-section p i {
+  font-size: 12px;
   margin-right: 10px; /* Space between icon and text */
   color: #fff; /* White color for icons in the right column */
 }
