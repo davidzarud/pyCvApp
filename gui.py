@@ -352,6 +352,25 @@ def main():
     root.title("Resume Builder")
     root.geometry('600x600')
 
+    # Create a Canvas widget with a Scrollbar
+    canvas = tk.Canvas(root)
+    scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
+    scrollable_frame = ttk.Frame(canvas)
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(
+            scrollregion=canvas.bbox("all")
+        )
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    # Pack the Canvas and Scrollbar
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
     style = ttk.Style(root)
     style.configure('TButton', font=('Helvetica', 10), padding=6)
     style.configure('TLabel', font=('Helvetica', 10))
@@ -362,7 +381,7 @@ def main():
     education_details = []
 
     # Personal Information Frame
-    personal_frame = ttk.LabelFrame(root, text="Personal Information")
+    personal_frame = ttk.LabelFrame(scrollable_frame, text="Personal Information")
     personal_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
     ttk.Label(personal_frame, text="Name:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
@@ -398,7 +417,7 @@ def main():
     languages_entry.grid(row=7, column=1, padx=10, pady=5, sticky="ew")
 
     # Job Experience Frame
-    jobs_frame = ttk.LabelFrame(root, text="Job Experience")
+    jobs_frame = ttk.LabelFrame(scrollable_frame, text="Job Experience")
     jobs_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
     job_listbox = tk.Listbox(jobs_frame, height=6)
@@ -421,7 +440,7 @@ def main():
     delete_job_button.pack(fill="x", pady=5)
 
     # Education Frame
-    education_frame = ttk.LabelFrame(root, text="Education")
+    education_frame = ttk.LabelFrame(scrollable_frame, text="Education")
     education_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
     education_listbox = tk.Listbox(education_frame, height=6)
@@ -444,7 +463,7 @@ def main():
     delete_education_button.pack(fill="x", pady=5)
 
     # Buttons Frame
-    buttons_frame = ttk.Frame(root)
+    buttons_frame = ttk.Frame(scrollable_frame)
     buttons_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
     save_button = ttk.Button(buttons_frame, text="Save to JSON", command=save_to_json)
